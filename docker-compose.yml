@@ -1,0 +1,30 @@
+services:
+  db:
+    image: postgres:latest
+    container_name: minhaempresa-postgres
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: admin
+      POSTGRES_DB: ProjectDb
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data 
+      
+  api:
+    image: projectsolutions-api
+    container_name: projectsolutions-api
+    build:
+      context: . 
+      dockerfile: ProjectAPI/Dockerfile
+    ports:
+      - "5000:8080"
+    depends_on:
+      - db
+    environment:
+      - ConnectionStrings__DefaultConnection=Host=db;Port=5432;Database=MinhaLojaDb;Username=postgres;Password=password123;
+      - ASPNETCORE_ENVIRONMENT=Development
+
+volumes:
+  postgres_data:
