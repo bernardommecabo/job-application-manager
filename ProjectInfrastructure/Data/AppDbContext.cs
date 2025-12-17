@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using ProjectDomain;
+using ProjectDomain.Entitites;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -41,6 +41,20 @@ namespace ProjectInfrastructure.Data
 
                 entity.Property(e => e.DateOfBirth)
                     .HasColumnName("date_of_birth");
+            });
+
+            modelBuilder.Entity<ResumeEntity>(entity =>
+            {
+                entity.HasKey(e => e.Id);
+
+                entity.Property(e => e.FilePath)
+                    .IsRequired()
+                    .HasColumnName("file_path");
+
+                entity.HasOne<ApplicantEntity>(r => r.Applicant)
+                    .WithOne()
+                    .HasForeignKey<ResumeEntity>(r => r.ApplicantId)
+                    .IsRequired();
             });
 
             base.OnModelCreating(modelBuilder);

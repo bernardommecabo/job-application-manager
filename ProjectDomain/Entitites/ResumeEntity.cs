@@ -1,0 +1,28 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace ProjectDomain.Entitites
+{
+    public class ResumeEntity
+    {
+        public int Id { get; private set; }
+        public string FilePath { get; private set; }
+        public int? ApplicantId { get; private set; }
+        public ApplicantEntity? Applicant { get; private set; }
+
+        public ResumeEntity(int id, string filePath, int applicantId)
+        {
+            if (string.IsNullOrEmpty(filePath)) throw new ArgumentException("File path cannot be null or empty", nameof(filePath));
+            Id = id;
+            FilePath = filePath;
+            ApplicantId = applicantId;
+        }
+
+        public ResumeEntity()
+        {
+        }
+    }
+}

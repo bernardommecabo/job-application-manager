@@ -1,7 +1,7 @@
 services:
   db:
-    image: postgres:latest
-    container_name: minhaempresa-postgres
+    image: postgres:16-alpine
+    container_name: project-solutions-db
     restart: always
     environment:
       POSTGRES_USER: postgres
@@ -23,7 +23,7 @@ services:
     depends_on:
       - db
     environment:
-      - ConnectionStrings__DefaultConnection=Host=db;Port=5432;Database=MinhaLojaDb;Username=postgres;Password=password123;
+      - ConnectionStrings__DefaultConnection=Host=localhost;Port=5432;Database=application_manager_db;Username=postgres;Password=admin;
       - ASPNETCORE_ENVIRONMENT=Development
 
 volumes:

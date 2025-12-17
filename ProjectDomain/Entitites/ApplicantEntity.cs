@@ -4,19 +4,23 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ProjectDomain
+namespace ProjectDomain.Entitites
 {
     public class ApplicantEntity
     {
-        public string Id { get; private set;}
-        public string Name { get; private set;}
-        public string Email { get; private set; }
-        public string Phone { get; private set;}
-        public string Website { get; private set; }
-        public ResumeEntity? Resume { get; private set; }
-        public DateTime? DateOfBirth { get; private set; }
+        public int Id { get; set; }
+        public string Name { get; set; } = string.Empty;
+        public string Email { get; set; } = string.Empty;
+        public string Phone { get; set; } = string.Empty;
+        public string Website { get; set; } = string.Empty;
+        public ResumeEntity? Resume { get; set; }
+        public DateTime? DateOfBirth { get; set; }
 
-        public ApplicantEntity(string id, string name, string email, string phone, string website,ResumeEntity resume, DateTime? dateOfBirth)
+        public ApplicantEntity()
+        {
+        }
+
+        public ApplicantEntity(int id, string name, string email, string phone, string website, ResumeEntity? resume, DateTime? dateOfBirth)
         {
             if (string.IsNullOrEmpty(name)) throw new ArgumentException("Name cannot be null or empty", nameof(name));
             if (string.IsNullOrEmpty(email)) throw new ArgumentException("Email cannot be null or empty", nameof(email));

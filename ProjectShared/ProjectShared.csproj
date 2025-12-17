@@ -7,9 +7,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="DTOs\response\" />
-    <Folder Include="DTOs\request\" />
     <Folder Include="Enums\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\ProjectDomain\ProjectDomain.csproj" />
   </ItemGroup>
 
 </Project>

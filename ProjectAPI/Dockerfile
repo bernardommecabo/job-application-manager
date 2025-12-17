@@ -16,6 +16,7 @@ COPY ["ProjectAPI/ProjectAPI.csproj", "ProjectAPI/"]
 COPY ["ProjectApplication/ProjectApplication.csproj", "ProjectApplication/"]
 COPY ["ProjectDomain/ProjectDomain.csproj", "ProjectDomain/"]
 COPY ["ProjectInfrastructure/ProjectInfrastructure.csproj", "ProjectInfrastructure/"]
+COPY ["ProjectShared/ProjectShared.csproj", "ProjectShared/"]
 
 RUN dotnet restore "./ProjectAPI/ProjectAPI.csproj"
 
