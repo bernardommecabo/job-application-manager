@@ -8,10 +8,10 @@ namespace ProjectDomain.Entitites
 {
     public class ResumeEntity
     {
-        public int Id { get; private set; }
-        public string FilePath { get; private set; }
-        public int? ApplicantId { get; private set; }
-        public ApplicantEntity? Applicant { get; private set; }
+        public int Id { get; set; }
+        public string FilePath { get; set; }
+        public int? ApplicantId { get; set; }
+        public ApplicantEntity? Applicant { get; set; }
 
         public ResumeEntity(int id, string filePath, int applicantId)
         {

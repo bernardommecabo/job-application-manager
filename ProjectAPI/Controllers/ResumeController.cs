@@ -4,23 +4,24 @@ using ProjectShared.DTOs.request;
 
 namespace ProjectAPI.Controllers
 {
-    [ApiController]
     [Route("[controller]")]
-    public class ApplicantController : ControllerBase
+    [ApiController]
+    public class ResumeController : ControllerBase
     {
-        private readonly IApplicantService _service;
+        private readonly IResumeService resumeService;
 
-        public ApplicantController(IApplicantService service)
+        public ResumeController(IResumeService service)
         {
-            _service = service;
+            resumeService = service;
         }
 
         [HttpPost]
-        public async Task<IActionResult> createApplicant([FromBody] ApplicantDTORequest request)
+        [Route("/applicant/{applicantId}/resume")]
+        public async Task<IActionResult> createResume([FromRoute] int applicantId,[FromBody] ResumeDTORequest request)
         {
             try
             {
-                var response = await _service.createApplicant(request);
+                var response = await resumeService.createResume(applicantId,request);
                 return Ok(response);
             }
             catch (System.Exception ex)
@@ -29,12 +30,12 @@ namespace ProjectAPI.Controllers
             }
         }
 
-        [HttpGet("{id}")]
-        public async Task<IActionResult> getApplicantById([FromRoute]int id)
+        [HttpGet("{resumeId}")]
+        public async Task<IActionResult> getResumeById([FromRoute] int resumeId)
         {
             try
             {
-                var response = await _service.getApplicantById(id);
+                var response = await resumeService.getResumeById(resumeId);
                 return Ok(response);
             }
             catch (System.Exception ex)
@@ -44,11 +45,12 @@ namespace ProjectAPI.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> getAllApplicants()
+        [Route("/applicant/{applicantId}/resume")]
+        public async Task<IActionResult> getResumeByApplicantId([FromRoute] int applicantId)
         {
             try
             {
-                var response = await _service.getAllApplicants();
+                var response = await resumeService.getResumeByApplicantId(applicantId);
                 return Ok(response);
             }
             catch (System.Exception ex)
@@ -57,12 +59,12 @@ namespace ProjectAPI.Controllers
             }
         }
 
-        [HttpPut("{id}")]
-        public async Task<IActionResult> updateApplicant([FromRoute] int id, [FromBody] ApplicantDTORequest request)
+        [HttpPut("{resumeId}")]
+        public async Task<IActionResult> updateResume([FromRoute]int resumeId, [FromBody] ResumeDTORequest request)
         {
             try
             {
-                var response = await _service.updateApplicant(id, request);
+                var response = await resumeService.updateResume(resumeId, request);
                 return Ok(response);
             }
             catch (System.Exception ex)
@@ -71,13 +73,13 @@ namespace ProjectAPI.Controllers
             }
         }
 
-        [HttpDelete("{id}")]
-        public IActionResult deleteApplicant([FromRoute] int id)
+        [HttpDelete("{resumeId}")]
+        public async Task<IActionResult> deleteResume([FromRoute] int resumeId)
         {
             try
             {
-                _service.deleteApplicantById(id);
-                return Ok();
+                var response = await resumeService.deleteResume(resumeId);
+                return Ok(response);
             }
             catch (System.Exception ex)
             {

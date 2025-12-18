@@ -15,6 +15,7 @@ namespace ProjectInfrastructure.Data
         }
 
         public DbSet<ApplicantEntity> Applicants { get; set; }
+        public DbSet<ResumeEntity> Resume { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<ApplicantEntity>(entity =>

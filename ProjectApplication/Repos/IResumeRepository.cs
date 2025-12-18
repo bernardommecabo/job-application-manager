@@ -9,9 +9,10 @@ namespace ProjectApplication.Repos
 {
     public interface IResumeRepository
     {
+        Task<ResumeEntity> CreateResumeAsync(ResumeEntity resume);
         Task<ResumeEntity> GetResumeByIdAsync(int id);
-        Task CreateResumeAsync(ResumeEntity resume);
-        Task UpdateResumeAsync(ResumeEntity resume);
-        Task DeleteResumeAsync(int id);
+        Task<ResumeEntity> GetResumeByApplicantIdAsync(int applicantId);
+        Task<ResumeEntity> UpdateResumeAsync(ResumeEntity resume);
+        Task<ResumeEntity> DeleteResumeAsync(int id);
     }
 }
