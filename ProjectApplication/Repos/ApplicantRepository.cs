@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using ProjectApplication.Repos;
+using ProjectApplication.Repos.Interfaces;
 using ProjectDomain.Entitites;
 using ProjectInfrastructure.Data;
 using System;

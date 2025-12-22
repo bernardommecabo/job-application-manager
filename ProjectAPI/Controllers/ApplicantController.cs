@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using ProjectApplication.Services;
+using ProjectApplication.Services.Interfaces;
 using ProjectShared.DTOs.request;
 
 namespace ProjectAPI.Controllers
@@ -72,12 +72,12 @@ namespace ProjectAPI.Controllers
         }
 
         [HttpDelete("{id}")]
-        public IActionResult deleteApplicant([FromRoute] int id)
+        public async Task<IActionResult> deleteApplicant([FromRoute] int id)
         {
             try
             {
-                _service.deleteApplicantById(id);
-                return Ok();
+                var response = await _service.deleteApplicantById(id);
+                return Ok(response);
             }
             catch (System.Exception ex)
             {

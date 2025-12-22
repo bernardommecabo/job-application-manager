@@ -1,7 +1,9 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using ProjectApplication.Repos;
+using ProjectApplication.Repos.Interfaces;
 using ProjectApplication.Services;
+using ProjectApplication.Services.Interfaces;
 using ProjectInfrastructure.Data;
 using System;
 
@@ -12,6 +14,9 @@ builder.Services.AddScoped<IApplicantService, ApplicantService>();
 
 builder.Services.AddScoped<IResumeRepository, ResumeRepository>();
 builder.Services.AddScoped<IResumeService, ResumeService>();
+
+
+builder.Services.AddScoped<IApplicationService, ApplicationService>();
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();

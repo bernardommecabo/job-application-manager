@@ -1,4 +1,5 @@
-﻿using ProjectApplication.Repos;
+﻿using ProjectApplication.Repos.Interfaces;
+using ProjectApplication.Services.Interfaces;
 using ProjectDomain.Entitites;
 using ProjectShared.DTOs.request;
 using ProjectShared.DTOs.response;

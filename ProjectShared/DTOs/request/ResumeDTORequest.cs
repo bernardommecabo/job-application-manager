@@ -8,6 +8,7 @@ namespace ProjectShared.DTOs.request
 {
     public class ResumeDTORequest
     {
+        public string Name { get; set; } = string.Empty;
         public string FilePath { get; set; } = string.Empty;
         public int? ApplicantId { get; set; }
     }

@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ProjectApplication.Services
+namespace ProjectApplication.Services.Interfaces
 {
     public interface IResumeService
     {

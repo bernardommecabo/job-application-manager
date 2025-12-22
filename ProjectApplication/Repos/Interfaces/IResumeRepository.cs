@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ProjectApplication.Repos
+namespace ProjectApplication.Repos.Interfaces
 {
     public interface IResumeRepository
     {

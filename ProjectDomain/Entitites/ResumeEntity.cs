@@ -9,6 +9,7 @@ namespace ProjectDomain.Entitites
     public class ResumeEntity
     {
         public int Id { get; set; }
+        public string Name { get; set; }
         public string FilePath { get; set; }
         public int? ApplicantId { get; set; }
         public ApplicantEntity? Applicant { get; set; }

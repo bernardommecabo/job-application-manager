@@ -10,6 +10,7 @@ namespace ProjectShared.DTOs.response
     public class ResumeDTOResponse
     {
         public int Id { get; set; }
+        public string Name { get; set; }
         public string FilePath { get; set; } = string.Empty;
         public int? ApplicantId { get; set; }
 
@@ -18,6 +19,7 @@ namespace ProjectShared.DTOs.response
             if (resumeEntity == null) throw new ArgumentNullException(nameof(resumeEntity));
 
             this.Id = resumeEntity.Id;
+            this.Name = resumeEntity.Name;
             this.FilePath = resumeEntity.FilePath;
             this.ApplicantId = resumeEntity.ApplicantId;
         }

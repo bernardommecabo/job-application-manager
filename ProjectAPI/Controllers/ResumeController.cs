@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using ProjectApplication.Services;
+using ProjectApplication.Services.Interfaces;
 using ProjectShared.DTOs.request;
 
 namespace ProjectAPI.Controllers
