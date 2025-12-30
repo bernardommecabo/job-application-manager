@@ -15,22 +15,21 @@ namespace ProjectDomain.Entitites
         public DateTime AppliedDate { get; set; } = DateTime.Now;
         public DateTime? PreviewAnswerDate { get; set; }
         public int ApplicantId { get; set; }
-        public ApplicantEntity applicantEntity { get; set; }
 
-        public ApplicationEntity() 
-        {
-        }
+        public ApplicantEntity? Applicant { get; set; }
 
-        public ApplicationEntity(int id, string jobTitle, string companyName, string status, DateTime appliedDate, DateTime? previewAnswerDate, int applicantId, ApplicantEntity applicantEntity)
+        public ApplicationEntity() { }
+
+        public ApplicationEntity(int id, string jobTitle, string companyName, string status, DateTime appliedDate, DateTime? previewAnswerDate, int applicantId, ApplicantEntity? applicant)
         {
-            this.Id = id;
-            this.JobTitle = jobTitle;
-            this.CompanyName = companyName;
-            this.Status = status;
-            this.AppliedDate = appliedDate;
-            this.PreviewAnswerDate = previewAnswerDate;
-            this.ApplicantId = applicantId;
-            this.applicantEntity = applicantEntity;
+            Id = id;
+            JobTitle = jobTitle;
+            CompanyName = companyName;
+            Status = status;
+            AppliedDate = appliedDate;
+            PreviewAnswerDate = previewAnswerDate;
+            ApplicantId = applicantId;
+            Applicant = applicant;
         }
     }
 }

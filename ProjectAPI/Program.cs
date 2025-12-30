@@ -1,46 +1,41 @@
-using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using ProjectApplication.Repos;
 using ProjectApplication.Repos.Interfaces;
 using ProjectApplication.Services;
 using ProjectApplication.Services.Interfaces;
 using ProjectInfrastructure.Data;
-using System;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddScoped<IApplicantRepository, ApplicantRepository>();
-builder.Services.AddScoped<IApplicantService, ApplicantService>();
+// Add DbContext (configure your connection string in appsettings)
+builder.Services.AddDbContext<AppDbContext>(options =>
+    options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 
+// Repositories
+builder.Services.AddScoped<IApplicantRepository, ApplicantRepository>();
+builder.Services.AddScoped<IApplicationRepository, ApplicationRepository>();
 builder.Services.AddScoped<IResumeRepository, ResumeRepository>();
+
+// Services
+builder.Services.AddScoped<IApplicationService, ApplicationService>();
 builder.Services.AddScoped<IResumeService, ResumeService>();
 
-
-builder.Services.AddScoped<IApplicationService, ApplicationService>();
-
 builder.Services.AddControllers();
+// Swagger
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-builder.Services.AddDbContext<ProjectInfrastructure.Data.AppDbContext>(options =>
-    options.UseNpgsql
-        (builder.Configuration.GetConnectionString("DefaultConnection"),
-        b => b.MigrationsAssembly("ProjectInfrastructure")
-    )
-);
-
-
 var app = builder.Build();
-
-if (app.Environment.IsDevelopment())
+// Apply any pending EF Core migrations at startup (ensure DB schema exists)
+using (var scope = app.Services.CreateScope())
 {
-    app.UseSwagger();
-    app.UseSwaggerUI();
+    var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+    db.Database.Migrate();
 }
-
-app.UseHttpsRedirection();
-
-app.UseAuthorization();
-
+// Enable Swagger in development and production if desired
+app.UseSwagger();
+app.UseSwaggerUI();
 app.MapControllers();
-            
 app.Run();

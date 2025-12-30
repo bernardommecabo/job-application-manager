@@ -25,8 +25,9 @@ namespace ProjectAPI.Controllers
             }
             catch (System.Exception ex)
             {
-                return BadRequest(new { message = ex.Message, full = ex.ToString(), inner = ex.InnerException?.ToString() });
+                return BadRequest(new { message = ex.Message});
             }
+            
         }
 
         [HttpGet("{id}")]
@@ -39,7 +40,7 @@ namespace ProjectAPI.Controllers
             }
             catch (System.Exception ex)
             {
-                return BadRequest(new { message = ex.Message, full = ex.ToString(), inner = ex.InnerException?.ToString() });
+                return BadRequest(new { message = ex.Message});
             }
         }
 
@@ -53,7 +54,7 @@ namespace ProjectAPI.Controllers
             }
             catch (System.Exception ex)
             {
-                return BadRequest(new { message = ex.Message, full = ex.ToString(), inner = ex.InnerException?.ToString() });
+                return BadRequest(new { message = ex.Message});
             }
         }
 
@@ -67,7 +68,7 @@ namespace ProjectAPI.Controllers
             }
             catch (System.Exception ex)
             {
-                return BadRequest(new { message = ex.Message, full = ex.ToString(), inner = ex.InnerException?.ToString() });
+                return BadRequest(new { message = ex.Message});
             }
         }
 
@@ -81,7 +82,7 @@ namespace ProjectAPI.Controllers
             }
             catch (System.Exception ex)
             {
-                return BadRequest(new { message = ex.Message, full = ex.ToString(), inner = ex.InnerException?.ToString() });
+                return BadRequest(new { message = ex.Message});
             }
         }
     }

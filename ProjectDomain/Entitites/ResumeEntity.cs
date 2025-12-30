@@ -14,12 +14,13 @@ namespace ProjectDomain.Entitites
         public int? ApplicantId { get; set; }
         public ApplicantEntity? Applicant { get; set; }
 
-        public ResumeEntity(int id, string filePath, int applicantId)
+        public ResumeEntity(int id, string name, string filePath, int applicantId)
         {
             if (string.IsNullOrEmpty(filePath)) throw new ArgumentException("File path cannot be null or empty", nameof(filePath));
-            Id = id;
-            FilePath = filePath;
-            ApplicantId = applicantId;
+            this.Id = id;
+            this.Name = name;
+            this.FilePath = filePath;
+            this.ApplicantId = applicantId;
         }
 
         public ResumeEntity()

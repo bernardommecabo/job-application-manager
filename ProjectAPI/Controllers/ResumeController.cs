@@ -26,21 +26,7 @@ namespace ProjectAPI.Controllers
             }
             catch (System.Exception ex)
             {
-                return BadRequest(new { message = ex.Message, full = ex.ToString(), inner = ex.InnerException?.ToString() });
-            }
-        }
-
-        [HttpGet("{resumeId}")]
-        public async Task<IActionResult> getResumeById([FromRoute] int resumeId)
-        {
-            try
-            {
-                var response = await resumeService.getResumeById(resumeId);
-                return Ok(response);
-            }
-            catch (System.Exception ex)
-            {
-                return BadRequest(new { message = ex.Message, full = ex.ToString(), inner = ex.InnerException?.ToString() });
+                return BadRequest(new { message = ex.Message});
             }
         }
 
@@ -55,35 +41,35 @@ namespace ProjectAPI.Controllers
             }
             catch (System.Exception ex)
             {
-                return BadRequest(new { message = ex.Message, full = ex.ToString(), inner = ex.InnerException?.ToString() });
+                return BadRequest(new { message = ex.Message});
             }
         }
 
-        [HttpPut("{resumeId}")]
-        public async Task<IActionResult> updateResume([FromRoute]int resumeId, [FromBody] ResumeDTORequest request)
+        [HttpPut("/applicant/{applicantId}/resume")]
+        public async Task<IActionResult> updateResume([FromRoute]int applicantId, [FromBody] ResumeDTORequest request)
         {
             try
             {
-                var response = await resumeService.updateResume(resumeId, request);
+                var response = await resumeService.updateResume(applicantId, request);
                 return Ok(response);
             }
             catch (System.Exception ex)
             {
-                return BadRequest(new { message = ex.Message, full = ex.ToString(), inner = ex.InnerException?.ToString() });
+                return BadRequest(new { message = ex.Message});
             }
         }
 
-        [HttpDelete("{resumeId}")]
-        public async Task<IActionResult> deleteResume([FromRoute] int resumeId)
+        [HttpDelete("/applicant/{applicantId}/resume")]
+        public async Task<IActionResult> deleteResume([FromRoute] int applicantId)
         {
             try
             {
-                var response = await resumeService.deleteResume(resumeId);
+                var response = await resumeService.deleteResume(applicantId);
                 return Ok(response);
             }
             catch (System.Exception ex)
             {
-                return BadRequest(new { message = ex.Message, full = ex.ToString(), inner = ex.InnerException?.ToString() });
+                return BadRequest(new { message = ex.Message});
             }
         }
     }

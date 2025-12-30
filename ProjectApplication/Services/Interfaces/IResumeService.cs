@@ -12,7 +12,6 @@ namespace ProjectApplication.Services.Interfaces
     public interface IResumeService
     {
         Task<ResumeDTOResponse> createResume(int applicantId,ResumeDTORequest request);
-        Task<ResumeEntity> getResumeById(int resumeId);
         Task<ResumeEntity> getResumeByApplicantId(int applicantId);
         Task<ResumeDTOResponse> updateResume(int resumeId, ResumeDTORequest request);
         Task<ResumeDTOResponse> deleteResume(int resumeId);

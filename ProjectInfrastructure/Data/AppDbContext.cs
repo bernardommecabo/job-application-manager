@@ -1,10 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using ProjectDomain.Entitites;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ProjectInfrastructure.Data
 {
@@ -16,16 +11,18 @@ namespace ProjectInfrastructure.Data
 
         public DbSet<ApplicantEntity> Applicants { get; set; }
         public DbSet<ResumeEntity> Resume { get; set; }
+        public DbSet<ApplicationEntity> Applications { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<ApplicantEntity>(entity =>
             {
                 entity.HasKey(e => e.Id);
-                
+
                 entity.Property(e => e.Name)
-                    .IsRequired()             
-                    .HasMaxLength(100)      
-                    .HasColumnName("name");   
+                    .IsRequired()
+                    .HasMaxLength(100)
+                    .HasColumnName("name");
 
                 entity.Property(e => e.Email)
                     .IsRequired()
@@ -52,10 +49,41 @@ namespace ProjectInfrastructure.Data
                     .IsRequired()
                     .HasColumnName("file_path");
 
-                entity.HasOne<ApplicantEntity>(r => r.Applicant)
+                entity.HasOne(r => r.Applicant)
                     .WithOne()
                     .HasForeignKey<ResumeEntity>(r => r.ApplicantId)
-                    .IsRequired();
+                    .IsRequired(false);
+            });
+
+            modelBuilder.Entity<ApplicationEntity>(entity =>
+            {
+                entity.HasKey(e => e.Id);
+
+                entity.Property(e => e.JobTitle)
+                    .IsRequired()
+                    .HasMaxLength(200)
+                    .HasColumnName("job_title");
+
+                entity.Property(e => e.CompanyName)
+                    .IsRequired()
+                    .HasMaxLength(200)
+                    .HasColumnName("company_name");
+
+                entity.Property(e => e.Status)
+                    .IsRequired()
+                    .HasColumnName("status");
+
+                entity.Property(e => e.AppliedDate)
+                    .IsRequired()
+                    .HasColumnName("applied_date");
+
+                entity.Property(e => e.PreviewAnswerDate)
+                    .HasColumnName("preview_answer_date");
+
+                entity.HasOne(a => a.Applicant)
+                      .WithMany()
+                      .HasForeignKey(a => a.ApplicantId)
+                      .IsRequired();
             });
 
             base.OnModelCreating(modelBuilder);
