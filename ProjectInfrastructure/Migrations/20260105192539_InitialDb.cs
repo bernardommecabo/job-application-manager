@@ -7,7 +7,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace ProjectInfrastructure.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialCreate : Migration
+    public partial class InitialDb : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -31,23 +31,47 @@ namespace ProjectInfrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "ResumeEntity",
+                name: "Applications",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    file_path = table.Column<string>(type: "text", nullable: false),
+                    job_title = table.Column<string>(type: "character varying(200)", maxLength: 200, nullable: false),
+                    company_name = table.Column<string>(type: "character varying(200)", maxLength: 200, nullable: false),
+                    status = table.Column<string>(type: "text", nullable: false),
+                    applied_date = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    preview_answer_date = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
                     ApplicantId = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ResumeEntity", x => x.Id);
+                    table.PrimaryKey("PK_Applications", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_ResumeEntity_Applicants_ApplicantId",
+                        name: "FK_Applications_Applicants_ApplicantId",
                         column: x => x.ApplicantId,
                         principalTable: "Applicants",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Resume",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    Name = table.Column<string>(type: "text", nullable: false),
+                    file_path = table.Column<string>(type: "text", nullable: false),
+                    ApplicantId = table.Column<int>(type: "integer", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Resume", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Resume_Applicants_ApplicantId",
+                        column: x => x.ApplicantId,
+                        principalTable: "Applicants",
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateIndex(
@@ -56,16 +80,21 @@ namespace ProjectInfrastructure.Migrations
                 column: "ResumeId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ResumeEntity_ApplicantId",
-                table: "ResumeEntity",
+                name: "IX_Applications_ApplicantId",
+                table: "Applications",
+                column: "ApplicantId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Resume_ApplicantId",
+                table: "Resume",
                 column: "ApplicantId",
                 unique: true);
 
             migrationBuilder.AddForeignKey(
-                name: "FK_Applicants_ResumeEntity_ResumeId",
+                name: "FK_Applicants_Resume_ResumeId",
                 table: "Applicants",
                 column: "ResumeId",
-                principalTable: "ResumeEntity",
+                principalTable: "Resume",
                 principalColumn: "Id");
         }
 
@@ -73,11 +102,14 @@ namespace ProjectInfrastructure.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropForeignKey(
-                name: "FK_Applicants_ResumeEntity_ResumeId",
+                name: "FK_Applicants_Resume_ResumeId",
                 table: "Applicants");
 
             migrationBuilder.DropTable(
-                name: "ResumeEntity");
+                name: "Applications");
+
+            migrationBuilder.DropTable(
+                name: "Resume");
 
             migrationBuilder.DropTable(
                 name: "Applicants");

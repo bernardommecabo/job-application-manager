@@ -8,7 +8,7 @@ namespace ProjectShared.DTOs.request
 {
     public class ApplicationDTORequest
     {
-        public string JobTitle { get; set; }
+        public string PositionTitle { get; set; }
         public string CompanyName { get; set; }
         public string Status { get; set; }
         public DateTime AppliedDate { get; set; }

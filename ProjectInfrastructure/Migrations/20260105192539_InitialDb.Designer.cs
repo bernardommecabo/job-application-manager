@@ -12,8 +12,8 @@ using ProjectInfrastructure.Data;
 namespace ProjectInfrastructure.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20251216200244_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20260105192539_InitialDb")]
+    partial class InitialDb
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -25,7 +25,7 @@ namespace ProjectInfrastructure.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
-            modelBuilder.Entity("ProjectDomain.ApplicantEntity", b =>
+            modelBuilder.Entity("ProjectDomain.Entitites.ApplicantEntity", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -69,7 +69,50 @@ namespace ProjectInfrastructure.Migrations
                     b.ToTable("Applicants");
                 });
 
-            modelBuilder.Entity("ProjectDomain.ResumeEntity", b =>
+            modelBuilder.Entity("ProjectDomain.Entitites.ApplicationEntity", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("ApplicantId")
+                        .HasColumnType("integer");
+
+                    b.Property<DateTime>("AppliedDate")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("applied_date");
+
+                    b.Property<string>("CompanyName")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("character varying(200)")
+                        .HasColumnName("company_name");
+
+                    b.Property<string>("JobTitle")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("character varying(200)")
+                        .HasColumnName("job_title");
+
+                    b.Property<DateTime?>("PreviewAnswerDate")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("preview_answer_date");
+
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("status");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ApplicantId");
+
+                    b.ToTable("Applications");
+                });
+
+            modelBuilder.Entity("ProjectDomain.Entitites.ResumeEntity", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -78,7 +121,6 @@ namespace ProjectInfrastructure.Migrations
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<int?>("ApplicantId")
-                        .IsRequired()
                         .HasColumnType("integer");
 
                     b.Property<string>("FilePath")
@@ -86,30 +128,43 @@ namespace ProjectInfrastructure.Migrations
                         .HasColumnType("text")
                         .HasColumnName("file_path");
 
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("text");
+
                     b.HasKey("Id");
 
                     b.HasIndex("ApplicantId")
                         .IsUnique();
 
-                    b.ToTable("ResumeEntity");
+                    b.ToTable("Resume");
                 });
 
-            modelBuilder.Entity("ProjectDomain.ApplicantEntity", b =>
+            modelBuilder.Entity("ProjectDomain.Entitites.ApplicantEntity", b =>
                 {
-                    b.HasOne("ProjectDomain.ResumeEntity", "Resume")
+                    b.HasOne("ProjectDomain.Entitites.ResumeEntity", "Resume")
                         .WithMany()
                         .HasForeignKey("ResumeId");
 
                     b.Navigation("Resume");
                 });
 
-            modelBuilder.Entity("ProjectDomain.ResumeEntity", b =>
+            modelBuilder.Entity("ProjectDomain.Entitites.ApplicationEntity", b =>
                 {
-                    b.HasOne("ProjectDomain.ApplicantEntity", "Applicant")
-                        .WithOne()
-                        .HasForeignKey("ProjectDomain.ResumeEntity", "ApplicantId")
+                    b.HasOne("ProjectDomain.Entitites.ApplicantEntity", "Applicant")
+                        .WithMany()
+                        .HasForeignKey("ApplicantId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Applicant");
+                });
+
+            modelBuilder.Entity("ProjectDomain.Entitites.ResumeEntity", b =>
+                {
+                    b.HasOne("ProjectDomain.Entitites.ApplicantEntity", "Applicant")
+                        .WithOne()
+                        .HasForeignKey("ProjectDomain.Entitites.ResumeEntity", "ApplicantId");
 
                     b.Navigation("Applicant");
                 });

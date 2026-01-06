@@ -27,7 +27,7 @@ namespace ProjectApplication.Services
 
             var applicationEntity = new ApplicationEntity
             {
-                JobTitle = applicationDTORequest.JobTitle,
+                JobTitle = applicationDTORequest.PositionTitle,
                 CompanyName = applicationDTORequest.CompanyName,
                 Status = applicationDTORequest.Status,
                 AppliedDate = applicationDTORequest.AppliedDate,
@@ -45,7 +45,18 @@ namespace ProjectApplication.Services
             if (applicant == null) throw new KeyNotFoundException($"Applicant ID: {applicantId} was not found.");
 
             var list = await _applicationRepository.getAllApplicationsByApplicantId(applicantId);
-            return list.Select(e => new ApplicationDTOResponse(e)).ToList();
+
+            var applicationDTOs = list.Select(app => new ApplicationDTOResponse
+            {
+                Id = app.Id,
+                CompanyName = app.CompanyName,
+                PositionTitle = app.JobTitle,
+                Status = app.Status,
+                AppliedDate = app.AppliedDate,
+                PreviewAnswerDate = app.PreviewAnswerDate
+            }).ToList();
+
+            return applicationDTOs;
         }
 
         public async Task<ApplicationDTOResponse> getApplicationById(int applicantId, int applicationId)
@@ -67,7 +78,7 @@ namespace ProjectApplication.Services
             var existing = await _applicationRepository.getApplicationById(applicantId, applicationId);
             if (existing == null) throw new KeyNotFoundException($"Application ID: {applicationId} for Applicant ID: {applicantId} was not found.");
 
-            existing.JobTitle = applicationDTORequest.JobTitle;
+            existing.JobTitle = applicationDTORequest.PositionTitle;
             existing.CompanyName = applicationDTORequest.CompanyName;
             existing.Status = applicationDTORequest.Status;
             existing.AppliedDate = applicationDTORequest.AppliedDate;

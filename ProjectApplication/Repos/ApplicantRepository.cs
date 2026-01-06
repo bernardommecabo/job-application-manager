@@ -19,7 +19,6 @@ namespace ProjectApplication.Repos
 
         public async Task<ApplicantEntity?> GetByIdAsync(int id)
         {
-            // Eager-load Resume to avoid null-reference when caller expects navigation populated.
             return await _context.Applicants
                                  .Include(a => a.Resume)
                                  .FirstOrDefaultAsync(a => a.Id == id);
@@ -73,6 +72,11 @@ namespace ProjectApplication.Repos
         public async Task<bool> ExistsByWebsiteAsync(string website)
         {
             return await _context.Applicants.AnyAsync(x => x.Website == website);
+        }
+
+        public async Task<ApplicantEntity?> GetByEmailOrNameAsync(string text)
+        {
+            return await _context.Applicants.FirstOrDefaultAsync(x => x.Email == text || x.Name == text); ;
         }
     }
 }

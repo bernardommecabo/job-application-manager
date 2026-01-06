@@ -8,7 +8,7 @@ using ProjectApplication.Services.Interfaces;
 
 namespace ProjectAPI.Controllers
 {
-    [Route("applicants/{applicantId}/applications")]
+    [Route("api/Applicant/{applicantId}/[controller]")]
     [ApiController]
     public class ApplicationController : ControllerBase
     {

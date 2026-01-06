@@ -16,5 +16,6 @@ namespace ProjectApplication.Services.Interfaces
         Task<List<ApplicantEntity>> getAllApplicants();
         Task<ApplicantDTOResponse> updateApplicant(int id, ApplicantDTORequest request);
         Task<ApplicantDTOResponse> deleteApplicantById(int id);
+        Task<LoginDTOResponse> Login(LoginDTORequest request);
     }
 }

@@ -1,18 +1,22 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using ProjectApplication.Repos.Interfaces;
+using ProjectApplication.Services;
 using ProjectApplication.Services.Interfaces;
 using ProjectShared.DTOs.request;
 
 namespace ProjectAPI.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("api/[controller]")]
     public class ApplicantController : ControllerBase
     {
         private readonly IApplicantService _service;
+        private readonly IApplicantRepository _repository;
 
-        public ApplicantController(IApplicantService service)
+        public ApplicantController(IApplicantService service, IApplicantRepository repository)
         {
             _service = service;
+            _repository = repository;
         }
 
         [HttpPost]
@@ -25,13 +29,13 @@ namespace ProjectAPI.Controllers
             }
             catch (System.Exception ex)
             {
-                return BadRequest(new { message = ex.Message});
+                return BadRequest(new { message = ex.Message });
             }
-            
+
         }
 
         [HttpGet("{id}")]
-        public async Task<IActionResult> getApplicantById([FromRoute]int id)
+        public async Task<IActionResult> getApplicantById([FromRoute] int id)
         {
             try
             {
@@ -40,7 +44,7 @@ namespace ProjectAPI.Controllers
             }
             catch (System.Exception ex)
             {
-                return BadRequest(new { message = ex.Message});
+                return BadRequest(new { message = ex.Message });
             }
         }
 
@@ -54,7 +58,7 @@ namespace ProjectAPI.Controllers
             }
             catch (System.Exception ex)
             {
-                return BadRequest(new { message = ex.Message});
+                return BadRequest(new { message = ex.Message });
             }
         }
 
@@ -68,7 +72,7 @@ namespace ProjectAPI.Controllers
             }
             catch (System.Exception ex)
             {
-                return BadRequest(new { message = ex.Message});
+                return BadRequest(new { message = ex.Message });
             }
         }
 
@@ -82,7 +86,22 @@ namespace ProjectAPI.Controllers
             }
             catch (System.Exception ex)
             {
-                return BadRequest(new { message = ex.Message});
+                return BadRequest(new { message = ex.Message });
+            }
+        }
+
+        [HttpPost("login")]
+        public async Task<IActionResult> loginApplicant([FromBody] LoginDTORequest loginRequest)
+        {
+            try
+            {
+                var response = await _service.Login(loginRequest);
+
+                return Ok(response);
+            }
+            catch (System.Exception ex)
+            {
+                return BadRequest(new { message = ex.Message });
             }
         }
     }

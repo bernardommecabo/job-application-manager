@@ -1,5 +1,6 @@
 ﻿using FluentValidation;
 using ProjectAPI.Validators;
+using ProjectApplication.Repos;
 using ProjectApplication.Repos.Interfaces;
 using ProjectApplication.Services.Interfaces;
 using ProjectDomain.Entitites;
@@ -9,6 +10,7 @@ using ProjectShared.Validators.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -74,6 +76,22 @@ namespace ProjectApplication.Services
         {
             ApplicantEntity applicantEntity = await applicantRepository.DeleteByIdAsync(id);
             return new ApplicantDTOResponse(applicantEntity);
+        }
+
+        public async Task<LoginDTOResponse> Login(LoginDTORequest request)
+        {
+            var applicant = await applicantRepository.GetByEmailOrNameAsync(request.Input);
+
+            if (applicant == null)
+            {
+                throw new Exception("User not found or invalid credentials.");
+            }
+
+            LoginDTOResponse response = new LoginDTOResponse();
+            response.Id = applicant.Id;
+            response.Name = applicant.Name;
+
+            return response;
         }
     }
 }

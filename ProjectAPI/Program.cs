@@ -10,9 +10,21 @@ using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
+AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
 // Add DbContext (configure your connection string in appsettings)
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAll",
+        builder =>
+        {
+            builder.AllowAnyOrigin()
+                   .AllowAnyMethod()
+                   .AllowAnyHeader();
+        });
+});
 
 // Repositories
 builder.Services.AddScoped<IApplicantRepository, ApplicantRepository>();
@@ -20,13 +32,16 @@ builder.Services.AddScoped<IApplicationRepository, ApplicationRepository>();
 builder.Services.AddScoped<IResumeRepository, ResumeRepository>();
 
 // Services
+builder.Services.AddScoped<IApplicantService, ApplicantService>();
 builder.Services.AddScoped<IApplicationService, ApplicationService>();
 builder.Services.AddScoped<IResumeService, ResumeService>();
 
 builder.Services.AddControllers();
+
 // Swagger
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
 var app = builder.Build();
 // Apply any pending EF Core migrations at startup (ensure DB schema exists)
 using (var scope = app.Services.CreateScope())
@@ -35,6 +50,10 @@ using (var scope = app.Services.CreateScope())
     db.Database.Migrate();
 }
 // Enable Swagger in development and production if desired
+
+app.UseMiddleware<ProjectAPI.Middlewares.ErrorHandlerMiddleware>();
+app.UseCors("AllowAll");
+
 app.UseSwagger();
 app.UseSwaggerUI();
 app.MapControllers();

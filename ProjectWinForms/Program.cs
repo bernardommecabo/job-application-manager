@@ -1,3 +1,9 @@
+using Microsoft.Extensions.DependencyInjection;
+using ProjectWinForms.Services;
+using ProjectWinForms.Services.Interfaces;
+using System;
+using System.Windows.Forms;
+
 namespace ProjectWinForms
 {
     internal static class Program
@@ -8,10 +14,21 @@ namespace ProjectWinForms
         [STAThread]
         static void Main()
         {
-            // To customize application configuration such as set high DPI settings or default font,
-            // see https://aka.ms/applicationconfiguration.
             ApplicationConfiguration.Initialize();
-            Application.Run(new Form1());
+
+            var services = new ServiceCollection();
+
+            services.AddScoped<IApplicantServiceForms, ApplicantServiceForms>();
+            services.AddScoped<IApplicationServiceForms, ApplicationServiceForms>();
+
+            services.AddTransient<HomeForm>();
+
+            using (var serviceProvider = services.BuildServiceProvider())
+            {
+                var homeForm = serviceProvider.GetRequiredService<HomeForm>();
+
+                Application.Run(homeForm);
+            }
         }
     }
 }

@@ -11,6 +11,7 @@ namespace ProjectApplication.Repos.Interfaces
         Task<ApplicantEntity> SaveAsync(ApplicantEntity applicant);
         Task<ApplicantEntity> UpdateAsync(ApplicantEntity applicant);
         Task<ApplicantEntity> DeleteByIdAsync(int id);
+        Task<ApplicantEntity?> GetByEmailOrNameAsync(string text);
         Task<bool> ExistsByNameAsync(string name);
         Task<bool> ExistsByPhoneAsync(string phone);
         Task<bool> ExistsByWebsiteAsync(string website);
